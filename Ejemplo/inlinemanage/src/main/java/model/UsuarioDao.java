@@ -12,166 +12,143 @@ import java.util.List;
 public class UsuarioDao {
     //!ADVERTENCIA:  En las clases Dao podremos realizar diferentes ejecucuines como lo hacemos en phpMyAdmin o WorkBench.
 
-    //SECCION:  Atrubutos para realizar acciones en la base de datos.   e
+    //?SECCION:  Atrubutos para realizar acciones en la base de datos.   e
     Connection con; //objeto de conexión
     PreparedStatement ps; //preparar sentencias
     ResultSet rs; // almacenar consutas
     String sql=null;
     int r; //cantidad de filas que devuelve una sentencia
 
-    //SECCION: Registrar usuario.
-    public int registrar(UsuarioVo Usuario) throws SQLException{
+    //?SECCION: Registrar usuario.
 
-        sql="INSERT INTO users_tbl (user_firstname, user_lastname, user_email, user_password) values (?,?,?,?)";
+    public int registerUserDao(UsuarioVo user) throws SQLException{
+        sql="INSERT INTO usuario (tipoDoc, numeroDoc, nombre, apellido, correo, contraseña, idRol) values(?,?,?,?,?,?,?)";
         System.out.println(sql);
 
-        try{
-            con=Conexion.conectar(); //abrir conexión.
-            ps=con.prepareStatement(sql); //preparar sentencia.
-            ps.setString(1, Usuario.getUserFirstName());
-            ps.setString(2, Usuario.getUserLastName());
-            ps.setString(3, Usuario.getUserEmail());
-            ps.setString(4, Usuario.getUserPassword());
-            System.out.println(ps);
-            ps.executeUpdate(); //Ejecutar sentencia.
-            ps.close(); //cerrar sentencia.
-            System.out.println("Se registró el usuario correctamente, revisa la base de datos.");
-
-        }catch(Exception e){
-
-            System.out.println("UsuarioDao dice: Error en el regisro "+e.getMessage().toString());
-
-        }
-        finally{
-            con.close();//cerrando conexión
-        }
-        return r;
-    }
-    //SECCION: Consultar usuario.
-    public List<UsuarioVo> listar() throws SQLException {
-        List<UsuarioVo> usuario = new ArrayList<>();
-        sql = "select * from users_tbl";
         try {
-            con = Conexion.conectar();
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery(sql);
-            while (rs.next()) {
-                UsuarioVo r = new UsuarioVo();
-                r.setUserId(rs.getInt("user_id"));
-                r.setUserFirstName(rs.getString("user_firstname"));
-                r.setUserLastName(rs.getString("user_lastname"));
-                r.setUserEmail(rs.getString("user_email"));
-                r.setUserPassword(rs.getString("user_password"));
-                usuario.add(r);
-            }
+            con=Conexion.conectar();//Hacer una conexion con la base de datos
+            ps=con.prepareStatement(sql); //Prepara la sentencia
+            ps.setString(1, user.getTipoDoc());
+            ps.setInt(2, user.getNumeroDoc());
+            ps.setString(3,user.getNombre());
+            ps.setString(4, user.getApellido());
+            ps.setString(5, user.getCorreo());
+            ps.setString(6, user.getContraseña());
+            ps.setInt(7, user.getIdRol());
+
+            System.out.println(ps);
+
+            ps.executeUpdate();
             ps.close();
-            System.out.println("consulta exitosa");
-        } catch (SQLException e) {
-            System.out.println("La consulta no pudo ser ejecutada " + e.getMessage().toString());
-            throw e; // Lanzar la excepción para ser manejada en el método que invoca a listar()
-        } finally {
+
+            System.out.println("Se registro el usaurio correctamente en UsuarioDao");
+        } catch (Exception e) {
+            System.out.println("Error al registrar el usuario en usuarioDao en el metodo registerUserdao" +e.getMessage().toString() );
+        }finally{
             con.close();
         }
-    
-        return usuario;
-    }
-    
-
-
-
-
-    //SECCION: Actualizar usuario.
-    public int actualizar(UsuarioVo Usuario) throws SQLException{
-
-        sql="update users_tbl set user_firstname = ?, user_lastname = ?, user_email = ?, user_password = ? where user_id = ?"; 
-        System.out.println(sql);
-
-        try{
-            con=Conexion.conectar(); //abrir conexión.
-            ps=con.prepareStatement(sql); //preparar sentencia.
-            ps.setString(1, Usuario.getUserFirstName());
-            ps.setString(2, Usuario.getUserLastName());
-            ps.setString(3, Usuario.getUserEmail());
-            ps.setString(4, Usuario.getUserPassword());
-            ps.setInt(5, Usuario.getUserId());
-
-            System.out.println(ps);
-            ps.executeUpdate(); //Ejecutar sentencia.
-            ps.close(); //cerrar sentencia.
-            System.out.println("Se actualizó el registro del usuario correctamente, revisa la base de datos.");
-
-        }catch(Exception e){
-
-            System.out.println("UsuarioDao dice: Error en la actualizacion del registro "+e.getMessage().toString());
-
-        }
-        finally{
-            con.close();//cerrando conexión
-        }
         return r;
     }
+    
+//?Metodo para listar usuaraios
 
-    public UsuarioVo obtenerUsuario(String nombre, String contrasena) throws SQLException {
-        sql = "SELECT * FROM users_tbl WHERE user_firstname = ? AND user_password = ?";
-        UsuarioVo usuario = null;
-        System.out.println("Actualmente se encuentra en el login.");
-        try(Connection con = Conexion.conectar();
-            PreparedStatement ps = con.prepareStatement(sql)) {
+public List<UsuarioVo> listar() throws SQLException{
+    List<UsuarioVo> user= new ArrayList<>();
 
-            ps.setString(1, nombre);
-            ps.setString(2, contrasena);
+    sql="Select * from usuario limit 12";
 
-            try(ResultSet rs = ps.executeQuery();){ 
-                if (rs.next()){ 
-                usuario=new UsuarioVo();
-                usuario.setUserFirstName(rs.getString("user_firstname"));
-                usuario.setUserPassword(rs.getString("user_password"));
-            // Asignar otras propiedades según corresponda
-            
-            }
-        } catch (SQLException e) {
-            System.out.println("Error al obtener el usuario: " + e.getMessage());
-        } 
-            return usuario;
+    try {
+        con = Conexion.conectar();
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery(sql);
+
+        while(rs.next()){
+            UsuarioVo UsuVo=new UsuarioVo();
+
+            UsuVo.setIdUsuario(rs.getInt("idUsuario"));
+            UsuVo.setTipoDoc(rs.getString("tipoDoc"));
+            UsuVo.setNumeroDoc(rs.getInt("numeroDoc"));
+            UsuVo.setNombre(rs.getString("nombre"));
+            UsuVo.setApellido(rs.getString("apellido"));
+            UsuVo.setCorreo(rs.getString("correo"));
+            UsuVo.setContraseña(rs.getString("contraseña"));
+            UsuVo.setIdRol(rs.getInt("idRol"));
+
+            user.add(UsuVo);
         }
+        ps.close();
+        System.out.println("Consulta de usuarios exitosa");
 
+    } catch (Exception e) {
+        System.out.println("La consulta de usuarios tiene un error" +e.getMessage().toString());
+        throw e;
+    }finally{
+        con.close();
     }
+    return user;
+}
 
-    public UsuarioVo obtenerUsuarioPorId(int userId) throws SQLException {
-    sql = "SELECT * FROM users_tbl WHERE user_id = ?";
-    UsuarioVo usuario = null;
+
+public UsuarioVo obtenerUsuarioPorId(int idUsuario) throws SQLException {
+    sql = "SELECT * FROM usuario WHERE idUsuario = ?";
+    UsuarioVo user = null;
     try(Connection con = Conexion.conectar();
         PreparedStatement ps = con.prepareStatement(sql)) {
 
-        ps.setInt(1, userId);
+        ps.setInt(1, idUsuario);
 
         try(ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
-                usuario = new UsuarioVo();
-                usuario.setUserId(rs.getInt("user_id"));
-                usuario.setUserFirstName(rs.getString("user_firstname"));
-                usuario.setUserLastName(rs.getString("user_lastname"));
-                usuario.setUserEmail(rs.getString("user_email"));
-                usuario.setUserPassword(rs.getString("user_password"));
+                user = new UsuarioVo();
+                user.setIdUsuario(rs.getInt("idUsuario"));
+                user.setTipoDoc(rs.getString("tipoDoc"));
+                user.setNumeroDoc(rs.getInt("numeroDoc"));
+                user.setNombre(rs.getString("nombre"));
+                user.setApellido(rs.getString("apellido"));
+                user.setCorreo(rs.getString("correo"));
+                user.setContraseña(rs.getString("contraseña"));
+                user.setIdRol(rs.getInt("idRol"));
             }
         } catch (SQLException e) {
             System.out.println("Error al obtener el usuario: " + e.getMessage());
         }
-        return usuario;
+        return user;
     }
 }
 
+    //Actualizar usuario.
+    public int updateUserDao(UsuarioVo User) throws SQLException{
 
-public void eliminar(int userId) throws SQLException {
-    sql = "DELETE FROM users_tbl WHERE user_id = ?";
-    try (Connection con = Conexion.conectar();
-            PreparedStatement ps = con.prepareStatement(sql)) {
-        ps.setInt(1, userId);
-        ps.executeUpdate();
-    } catch (SQLException e) {
-        System.out.println("Error al eliminar el usuario: " + e.getMessage());
-        throw e;
+        sql="update usuario set tipoDoc=?, numeroDoc=?, nombre=?, apellido=?, correo=?, contraseña=?, idRol=? where idUsuario = ?"; 
+        System.out.println(sql);
+
+        try{
+            con=Conexion.conectar(); //abrir conexión.
+            ps=con.prepareStatement(sql); //preparar sentencia.
+            ps.setString(1, User.getTipoDoc());
+            ps.setInt(2, User.getNumeroDoc());
+            ps.setString(3, User.getNombre());
+            ps.setString(4, User.getApellido());
+            ps.setString(5, User.getCorreo());
+            ps.setString(6, User.getContraseña());
+            ps.setInt(7, User.getIdRol());
+            ps.setInt(8, User.getIdUsuario());
+
+
+            System.out.println(ps);
+            ps.executeUpdate(); //Ejecutar sentencia.
+            ps.close(); //cerrar sentencia.
+            System.out.println("Se actualizó el registro del usuario correctamente.");
+
+        }catch(Exception e){
+
+            System.out.println("Error en la actualizacion del usuario en usuarioDao metodo updateUserDao "+e.getMessage().toString());
+
+        }
+        finally{
+            con.close();//cerrando conexión
+        }
+        return r;
     }
-}
 
 }
