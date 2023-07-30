@@ -57,7 +57,7 @@
                     <td><%= user.getCorreo() %></td>
                     <td><%= user.getIdRol() %></td>
                     <td class="iconCenter"><a href="ControllerInline?enviar=updateUser&idUsuario=<%= user.getIdUsuario() %>"><img src="https://img.icons8.com/ios/100/000000/refresh--v1.png" alt="refresh--v1" class="iconUpdate"/></a></td>
-                    <td class="iconCenter"><img height="30" src="https://img.icons8.com/ios/100/000000/delete--v1.png" alt="delete--v1" class="iconDelete"/></td>
+                    <td class="iconCenter"><a href="ControllerInline?enviar=deleteUser&idUsuario=<%= user.getIdUsuario() %>"><img height="30" src="https://img.icons8.com/ios/100/000000/delete--v1.png" alt="delete--v1" class="iconDelete"/></a></td>
                 </tr>
                 <% } %>
 

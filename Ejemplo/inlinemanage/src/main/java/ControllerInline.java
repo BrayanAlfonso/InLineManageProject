@@ -70,6 +70,25 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
         }
         break;
 
+
+        case "deleteUser":
+            // Obtener el user_id del usuario seleccionado desde la URL
+            String userIdStrDelete = req.getParameter("idUsuario");
+            int userIdDelete = Integer.parseInt(userIdStrDelete);
+
+            try {
+                new UsuarioDao().deleteUser(userIdDelete);
+                System.out.println("Usuario eliminado correctamente");
+                listAfterDelete(req, resp);
+                
+            } catch (Exception e) {
+                // Manejar la excepción SQLException aquí o propagarla hacia arriba según corresponda
+                e.printStackTrace();
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al obtener el usuario");
+
+            }
+        break;
+
     }
 }
 
@@ -204,6 +223,19 @@ private void registerUserController(HttpServletRequest req, HttpServletResponse 
 
         } catch (Exception e) {
             System.out.println("Error en la actualizacion del usuario "+e.getMessage().toString());
+        }
+    }
+
+
+    //!METODO UNICA Y EXCLUSIVAMENTE PARA REDIRECCION AL MOMENTO DE ELIMINAR UN USUARIO
+    private void listAfterDelete(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            List<UsuarioVo> usuario = UsuDao.listar();
+            req.setAttribute("usuarios", usuario);
+            req.getRequestDispatcher("FormsUser/indexUser.jsp").forward(req, resp);
+            System.out.println("Datos listados correctamente despues del usuario eliminado");
+        } catch (Exception e) {
+            System.out.println("Hay problemas al listar los datos en el metodo " + e.getMessage().toString());
         }
     }
 

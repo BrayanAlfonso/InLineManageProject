@@ -177,4 +177,16 @@ public UsuarioVo obtenerUsuarioPorId(int idUsuario) throws SQLException {
         return r;
     }
 
+    public void deleteUser(int userId) throws SQLException {
+        sql = "DELETE FROM usuario WHERE idUsuario = ?";
+        try (Connection con = Conexion.conectar();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar el usuario: " + e.getMessage());
+            throw e;
+        }
+    }
+
 }
