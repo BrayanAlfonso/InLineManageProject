@@ -1,5 +1,7 @@
 
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+
+
 <%@ include file="plantillas/header.jsp"%>
 
 <main>
@@ -91,4 +93,6 @@
 </main>
     
     
-<%@ include file="plantillas/footer.jsp"%>
+<%@ include file="../plantillas/footer.jsp"%>
+<!-- Si necesitan un archivo js especifico ira aqui -->
+<%@ include file="../plantillas/footer2.jsp"%>

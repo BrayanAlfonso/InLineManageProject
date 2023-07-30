@@ -80,3 +80,5 @@
     
     
 <%@ include file="../plantillas/footer.jsp"%>
+<!-- Si necesitan un archivo js especifico ira aqui -->
+<%@ include file="../plantillas/footer2.jsp"%>

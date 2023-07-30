@@ -41,6 +41,14 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <artifactId>mysql-connector-java</artifactId>
     <version>8.0.28</version>
 </dependency>
+
+<!-- !Dependencia para los mensajes -->
+
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>jstl</artifactId>
+        <version>1.2</version>
+    </dependency>
   </dependencies>
 
   <build>

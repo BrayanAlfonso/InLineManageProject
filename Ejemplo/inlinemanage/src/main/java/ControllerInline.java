@@ -119,6 +119,7 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws S
 private void loginUserController(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
     String userName=req.getParameter("inputUserName");
     String password=req.getParameter("inputPassword");
+    
     if(userName != null && !userName.isEmpty() && password != null && !password.isEmpty()){
         try {
             if(UsuDao.validarLogin(userName, password)){
@@ -238,6 +239,5 @@ private void registerUserController(HttpServletRequest req, HttpServletResponse 
             System.out.println("Hay problemas al listar los datos en el metodo " + e.getMessage().toString());
         }
     }
-
 
 }

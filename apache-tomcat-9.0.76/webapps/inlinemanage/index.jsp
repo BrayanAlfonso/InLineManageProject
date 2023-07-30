@@ -1,5 +1,6 @@
 
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="plantillas/header.jsp"%>
 
 <main>
@@ -22,11 +23,14 @@
                         <input type="text" id="inputPassword" name="inputPassword">
                     </div>
 
-                    <button name="enviar" value="index">INICIAR SESIÓN</button>
+                    <button name="enviar" value="index">INICIAR SESIÓN</button>    
+
                 </form>
         </div>
     </div>
 </main>
 </div>
     
-<%@ include file="plantillas/footer.jsp"%>
+<%@ include file="../plantillas/footer.jsp"%>
+<!-- Si necesitan un archivo js especifico ira aqui -->
+<%@ include file="../plantillas/footer2.jsp"%>
