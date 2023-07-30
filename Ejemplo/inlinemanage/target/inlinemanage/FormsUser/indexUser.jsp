@@ -27,7 +27,7 @@
 
             <%-- Verificar si hay usuarios y mostrarlos --%>
             <% if (users != null && !users.isEmpty()) { %>
-            <table class="<%=(users.size() > 2) ? "" : "few-rows"%>">
+            <table class="<%=(users.size() > 8) ? "" : "few-rows"%>">
                 <tr class="title-table">
                     <th colspan="7">USUARIOS</th>
                 </tr>

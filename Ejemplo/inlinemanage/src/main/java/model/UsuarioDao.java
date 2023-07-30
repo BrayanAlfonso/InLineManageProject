@@ -19,6 +19,32 @@ public class UsuarioDao {
     String sql=null;
     int r; //cantidad de filas que devuelve una sentencia
 
+
+    //?validacion de login
+    public boolean validarLogin(String userName, String password) throws SQLException{
+        sql="select 1 from usuario where nombre=? and contraseña=?";
+
+        try {
+            con=Conexion.conectar();//Hacer una conexion con la base de datos
+            ps=con.prepareStatement(sql); //Prepara la sentencia
+
+            ps.setString(1, userName);
+            ps.setString(2, password);
+
+            try(ResultSet rs=ps.executeQuery()){
+                return rs.next();
+            }
+        } catch (Exception e) {
+            System.out.println("Error en la validacion del login en UsuarioDao" +e.getMessage().toString() );
+        }finally{
+            con.close();
+        }
+
+        return false;
+        
+    }
+
+
     //?SECCION: Registrar usuario.
 
     public int registerUserDao(UsuarioVo user) throws SQLException{
@@ -55,7 +81,7 @@ public class UsuarioDao {
 public List<UsuarioVo> listar() throws SQLException{
     List<UsuarioVo> user= new ArrayList<>();
 
-    sql="Select * from usuario limit 12";
+    sql="Select * from usuario limit 9";
 
     try {
         con = Conexion.conectar();

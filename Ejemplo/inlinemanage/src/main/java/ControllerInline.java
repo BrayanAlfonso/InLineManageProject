@@ -23,7 +23,6 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 
         case "index":
             req.getRequestDispatcher("index.jsp").forward(req, resp);
-            
         break;
         case "user":
             req.getRequestDispatcher("FormsUser/indexUser.jsp").forward(req, resp);
@@ -85,13 +84,40 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws S
         break;
 
         case "updateUser":
-            System.out.println("Se entro aL caso de updateUser");
+            System.out.println("Se entro al caso de updateUser");
             updateUserController(req,resp);
+        break;
+
+        case"index":
+        System.out.println("Se entro en el caso index para validar login");
+        loginUserController(req, resp);
         break;
 }
 
 }
 
+//Validacion y metodo para login
+private void loginUserController(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+    String userName=req.getParameter("inputUserName");
+    String password=req.getParameter("inputPassword");
+    if(userName != null && !userName.isEmpty() && password != null && !password.isEmpty()){
+        try {
+            if(UsuDao.validarLogin(userName, password)){
+                System.out.println("La validacion ha sido exitosa!");
+                req.getRequestDispatcher("main.jsp").forward(req, resp);
+            }else{
+                req.setAttribute("mensaje", "Usuario o contraseña incorrectos.");
+                req.getRequestDispatcher("index.jsp").forward(req, resp);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al intentar iniciar sesión");
+        }
+    }else {
+        req.setAttribute("mensaje", "Por favor, ingrese un nombre de usuario y contraseña válidos.");
+        req.getRequestDispatcher("index.jsp").forward(req, resp);
+    }
+}
 
 private void registerUserController(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
     if(req.getParameter("documentType")!=null){
@@ -180,4 +206,6 @@ private void registerUserController(HttpServletRequest req, HttpServletResponse 
             System.out.println("Error en la actualizacion del usuario "+e.getMessage().toString());
         }
     }
+
+
 }

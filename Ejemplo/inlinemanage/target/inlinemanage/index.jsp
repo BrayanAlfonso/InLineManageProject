@@ -11,7 +11,7 @@
         <div class="login">
             
                 <h1 class="nameLogin">INICIO DE SESIÓN</h1>
-                <form action="ControllerInline">
+                <form action="ControllerInline" method="post">
                     <div class="inputs">
                         <label for="inputUserName"><b>Nombre de usuario:</b></label><br><br>
                         <input type="text" id="inputUserName" name="inputUserName">
@@ -22,7 +22,7 @@
                         <input type="text" id="inputPassword" name="inputPassword">
                     </div>
 
-                    <button name="enviar" value="main">INICIAR SESIÓN</button>
+                    <button name="enviar" value="index">INICIAR SESIÓN</button>
                 </form>
         </div>
     </div>
