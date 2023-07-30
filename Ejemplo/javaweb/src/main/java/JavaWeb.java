@@ -77,7 +77,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
                 new UsuarioDao().eliminar(userIdToDelete);
                 System.out.println("Usuario eliminado correctamente");
                 // Redirige nuevamente a la página de listado de usuarios después de eliminar
-                listAfterDelete(req, resp);(req, resp);
+                listar(req, resp);
             } catch (SQLException e) {
                 e.printStackTrace();
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al eliminar el usuario");
@@ -257,7 +257,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
         }
     }
 
-private void listAfterDelete(HttpServletRequest req, HttpServletResponse resp) {
+private void listar(HttpServletRequest req, HttpServletResponse resp) {
     try {
         List<UsuarioVo> usuario = rd.listar();
         req.setAttribute("usuarios", usuario);

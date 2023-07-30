@@ -111,6 +111,31 @@ public class UsuarioDao {
         return r;
     }
 
+    public UsuarioVo obtenerUsuario(String nombre, String contrasena) throws SQLException {
+        sql = "SELECT * FROM users_tbl WHERE user_firstname = ? AND user_password = ?";
+        UsuarioVo usuario = null;
+        System.out.println("Actualmente se encuentra en el login.");
+        try(Connection con = Conexion.conectar();
+            PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, nombre);
+            ps.setString(2, contrasena);
+
+            try(ResultSet rs = ps.executeQuery();){ 
+                if (rs.next()){ 
+                usuario=new UsuarioVo();
+                usuario.setUserFirstName(rs.getString("user_firstname"));
+                usuario.setUserPassword(rs.getString("user_password"));
+            // Asignar otras propiedades según corresponda
+            
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el usuario: " + e.getMessage());
+        } 
+            return usuario;
+        }
+
+    }
 
     public UsuarioVo obtenerUsuarioPorId(int userId) throws SQLException {
     sql = "SELECT * FROM users_tbl WHERE user_id = ?";
