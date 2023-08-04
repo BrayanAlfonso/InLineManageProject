@@ -1,10 +1,15 @@
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
+import model.ExistenciaDao;
+import model.ExistenciaVo;
 import model.ProductoDao;
 import model.ProductoVo;
 import model.UsuarioDao;
@@ -18,6 +23,8 @@ public class ControllerInline extends HttpServlet{
     UsuarioDao UsuDao=new UsuarioDao();
     ProductoVo ProdVo=new ProductoVo();
     ProductoDao ProdDao=new ProductoDao();
+    ExistenciaDao ExistDao=new ExistenciaDao();
+    ExistenciaVo ExistVo=new ExistenciaVo();
 
 @Override
 protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,11 +43,17 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
             req.getRequestDispatcher("FormsProduct/indexProduct.jsp").forward(req, resp);
         break;
 
+        case "existence":
+            req.getRequestDispatcher("FormsExistence/indexExistence.jsp").forward(req, resp);
+        break;
+    
+        case "registerExistence":
+            req.getRequestDispatcher("FormsExistence/registerExistence.jsp").forward(req, resp);
+        break;
+
         case "registerProduct":
             req.getRequestDispatcher("FormsProduct/registerProduct.jsp").forward(req, resp);
         break;
-
-
 
         case "supplier":
             req.getRequestDispatcher("FormsSupplier/indexSupplier.jsp").forward(req, resp);
@@ -175,6 +188,10 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws S
         System.out.println("Se entro al caso de updateProduct");
         updateProdController(req, resp);
         break;
+
+        case"registerExistence":
+        System.out.println("Se ha entrado en el caso 'registerExistence, en el metodo registerExistence()'");
+        registerExistController(req,resp);
 }
 
 }
@@ -408,4 +425,52 @@ private void listProdDelete(HttpServletRequest req, HttpServletResponse resp) {
         }
     }
 
+    
+    //EXISTENCIAS CRUD
+
+//REGISTRAR EXISTENCIA
+private void registerExistenceController(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+
+    if(req.getParameter("numSerial")!=null){
+        String numSerial=req.getParameter("numSerial");
+        int numSeSerialParsed=Integer.parseInt(numSerial);
+        ExistVo.setNumSerial(numSeSerialParsed);
+    }
+    if(req.getParameter("idCategoria")!=null){
+        String idCategoria=req.getParameter("idCategoria");
+        int idCategParsed=Integer.parseInt(idCategoria);
+        ExistVo.setIdCategoria(idCategParsed);
+    }
+    if(req.getParameter("fechaGarantia")!=null){
+        String fechaGarantia=req.getParameter("fechaGarantia");
+        Date dateParsed= new Date(fechaGarantia)
+        SimpleDateFormat dateParsed= new SimpleDateFormat(fechaGarantia);
+
+        ExistVo.setFechaGarantia(dateParsed);
+    }
+    if(req.getParameter("descripcion")!=null){
+        ExistVo.setDescripcion(req.getParameter("descripcion"));
+    }
+    if(req.getParameter("categoria")!=null){
+        String categoria=req.getParameter("categoria");
+        int Categoria=Integer.parseInt(categoria);
+        ProdVo.setIdCategoria(Categoria);
+    }
+    if(req.getParameter("existencia")!=null){
+        String existencia=req.getParameter("existencia");
+        int Existencia=Integer.parseInt(existencia);
+        ProdVo.setIdExistencia(Existencia);;
+    }
+    else{
+        System.out.println("Ha habido un error al tratar de registrar los datos del producto en el metodo registerProductController");
+    }
+    try {
+        ProdDao.registerProduct(ProdVo);
+        System.out.println("Registro insertado correctamente en controllerInLine");
+        //Redireccionamiento
+        req.getRequestDispatcher("FormsProduct/registerProduct.jsp").forward(req, resp);
+    } catch (Exception e) {
+        System.out.println("Error al registrar los datos del usaurio en ControllerInline en el metodo registerUserController");
+    }
+}
 }

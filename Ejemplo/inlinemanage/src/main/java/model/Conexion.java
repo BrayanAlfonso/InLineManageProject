@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class Conexion {
-    private static final String bbdd ="jdbc:mysql://localhost:3306/InLineManage";
+    private static final String bbdd ="jdbc:mysql://localhost:3307/InLineManage";
     private static final String usuario = "root";
     private static final String clave = "";
     private static Connection conn;

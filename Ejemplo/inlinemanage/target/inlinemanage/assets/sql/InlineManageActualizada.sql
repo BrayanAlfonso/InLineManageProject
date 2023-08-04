@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `existencia` (
 
 );
 
-insert into existencia values (null, 123456, 1, 2023-11-11, 'Observaciones de prueba', 1);
+
 
 CREATE TABLE IF NOT EXISTS `producto` (
   `idProducto` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `detalle_venta`(
   `idDetalleVenta` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `idProducto` int(11) DEFAULT NULL,
 `idVenta` int(11) DEFAULT NULL,
-  `precioUnidad` float DEFAULT NULL,
+  `precioProducto` float DEFAULT NULL,
   `cantidad` int(11) DEFAULT NULL
 );
 
@@ -98,6 +98,7 @@ add idExistencia int(11);
 
 alter table existencia
 add primary key (idExistencia, numSerial);
+insert into existencia values (123456, 1, 2023-11-11, 'Observaciones de prueba', 1,1);
 
 -- LLAVES FORANEAS
 

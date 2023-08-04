@@ -12,6 +12,7 @@
             </div>
             <button class="btn" ><a href="ControllerInline?enviar=registerProduct">Agregar</a></button>
             <button class="btn" ><a href="">Categoria</a></button>
+            <button class="btn"><a href="ControllerInline?enviar=existence">Existencia</a></button>
             <input type="text" placeholder="buscar" class="inputSearch">
         </div>
         <div class="content2">
