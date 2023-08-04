@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS `categoria` (
   `nombreCategoria` varchar(50) NOT NULL
 );
 
+insert into categoria values(1,'Cargadores');
+
 
 
 CREATE TABLE IF NOT EXISTS `entradaprod` (
@@ -18,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `entradaprod` (
   `precioEntrada` float DEFAULT NULL,
   `idProveedor` int(11) DEFAULT NULL
 );
-
+insert into entradaprod values (1, 2023-11-11, 11, 16000, 1);
 
 CREATE TABLE IF NOT EXISTS `existencia` (
   `idExistencia` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -29,6 +31,8 @@ CREATE TABLE IF NOT EXISTS `existencia` (
   `idEntradaProd` int(11) DEFAULT NULL
 
 );
+
+insert into existencia values (null, 123456, 1, 2023-11-11, 'Observaciones de prueba', 1);
 
 CREATE TABLE IF NOT EXISTS `producto` (
   `idProducto` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -48,6 +52,7 @@ CREATE TABLE IF NOT EXISTS `proveedor` (
   `direccionProveedor` varchar(50) DEFAULT NULL
 ) ;
 
+insert into proveedor values (1, 'Hector', 'Carrera 6 f este 89c 18 sur');
 
 CREATE TABLE IF NOT EXISTS `usuario` (
   `idUsuario` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,

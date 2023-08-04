@@ -1,5 +1,7 @@
-ControllerInline.class
 model\UsuarioVo.class
+model\UsuarioDao.class
+model\ProductoVo.class
+ControllerInline.class
 controller\Usuario.class
 model\Conexion.class
-model\UsuarioDao.class
+model\ProductoDao.class
